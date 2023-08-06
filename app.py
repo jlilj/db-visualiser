@@ -1,8 +1,9 @@
 import os
-import streamlit as st
+import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
 import psycopg2
+import streamlit as st
 
 # Retrieve the database connection details from the environment variable
 DATABASE_URL = os.getenv('DATABASE_URL')
@@ -52,9 +53,13 @@ pos = nx.spring_layout(G, seed=42)  # You can choose different layouts based on 
 # Set the node colors for tables and columns
 node_colors = ['orange' if node in table_names else 'skyblue' for node in G.nodes()]
 
-nx.draw(G, pos, with_labels=True, node_size=5000, node_color=node_colors, font_size=10, font_weight='bold')
-st.pyplot()
+# Create a Matplotlib figure and plot the graph on it
+fig, ax = plt.subplots()
+nx.draw(G, pos, with_labels=True, node_size=5000, node_color=node_colors, font_size=10, font_weight='bold', ax=ax)
 
-# Display the Result Table
+# Display the graph using Streamlit
+st.pyplot(fig)
+
+# Display the Result Table using Streamlit Dataframe, sorting columns alphabetically
 st.write("Table of columns and their corresponding tables:")
-st.dataframe(result_table)
+st.dataframe(result_table.sort_values(by='Column').reset_index(drop=True))
