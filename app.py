@@ -53,9 +53,13 @@ pos = nx.spring_layout(G, seed=42)  # You can choose different layouts based on 
 # Set the node colors for tables and columns
 node_colors = ['orange' if node in table_names else 'skyblue' for node in G.nodes()]
 
+# Set the node sizes for tables and columns
+node_sizes = [500 if node in table_names else 250 for node in G.nodes()]
+
 # Create a Matplotlib figure and plot the graph on it
 fig, ax = plt.subplots()
-nx.draw(G, pos, with_labels=True, node_size=5000, node_color=node_colors, font_size=10, font_weight='bold', ax=ax)
+nx.draw(G, pos, with_labels=True, node_size=node_sizes, node_color=node_colors, 
+        font_size=8, font_color='green', ax=ax)
 
 # Display the graph using Streamlit
 st.pyplot(fig)
