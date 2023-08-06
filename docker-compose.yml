@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: test_db
+      POSTGRES_USER: jamie
+      POSTGRES_PASSWORD: Password123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+    ports:
+      - "8501:8501"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://jamie:Password123@postgres/test_db
+
+volumes:
+  postgres_data:

@@ -1,0 +1,6 @@
+matplotlib
+networkx
+pandas
+psycopg2
+scipy
+streamlit
